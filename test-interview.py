@@ -34,3 +34,15 @@ print("Total Missing %:", percentage_missing)
 # Cleaning and seperating numerical and categorical data
 data = data.drop(columns=['Unnamed: 0'])
 data['clicks'] = data['clicks'].fillna(0)  # Alternatively, we can use the median or drop 'clicks,' as it does not play any role in the following modeling.
+
+ # Aggregating + Pivoting
+#  Pivot weekly-channel costs
+weekly = data.groupby(['week', 'channel']).agg({'cost':'sum', 'applications':'max'}).reset_index()
+cost_wide = weekly.pivot(index='week', columns='channel', values='cost').fillna(0)
+applications = weekly.groupby('week')['applications'].max()
+df_model = cost_wide.copy()
+df_model['applications'] = applications
+df_model['week_index'] = np.arange(len(df_model)) 
+
+print(df_model.head())
+print(data.shape)
