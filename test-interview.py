@@ -15,3 +15,22 @@ data = pd.read_csv(data_path)
 
 print(data.head())
 print(data.shape)
+
+# Preprocessing
+# Checking for missining values 
+missing = pd.DataFrame({
+    "Missing Count": data.isnull().sum(),
+    "Missing %": (data.isnull().sum() / len(data)) * 100
+})
+
+print(missing)
+
+total_missing = data.isnull().sum().sum()
+total_values = data.size
+
+percentage_missing = (total_missing / total_values) * 100
+print("Total Missing %:", percentage_missing)
+
+# Cleaning and seperating numerical and categorical data
+data = data.drop(columns=['Unnamed: 0'])
+data['clicks'] = data['clicks'].fillna(0)  # Alternatively, we can use the median or drop 'clicks,' as it does not play any role in the following modeling.
