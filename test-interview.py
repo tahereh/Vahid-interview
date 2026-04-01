@@ -35,7 +35,7 @@ print("Total Missing %:", percentage_missing)
 data = data.drop(columns=['Unnamed: 0'])
 data['clicks'] = data['clicks'].fillna(0)  # Alternatively, we can use the median or drop 'clicks,' as it does not play any role in the following modeling.
 
- # Aggregating + Pivoting
+# Aggregating + Pivoting
 #  Pivot weekly-channel costs
 weekly = data.groupby(['week', 'channel']).agg({'cost':'sum', 'applications':'max'}).reset_index()
 cost_wide = weekly.pivot(index='week', columns='channel', values='cost').fillna(0)
